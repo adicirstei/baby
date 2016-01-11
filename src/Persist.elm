@@ -1,6 +1,6 @@
-module Persist (save, restore, encodeFeedings, decodeFeedings) where
+module Persist (save, restore, storage) where
 
-import LocalStorage
+import LocalStorage exposing (..)
 import Types exposing (..)
 import Effects exposing (Effects)
 import Task
@@ -9,91 +9,73 @@ import Json.Decode exposing ((:=))
 import Result exposing (Result(..))
 
 
-key : LocalStorage.Key
-key =
-    "whichTitWhen"
-
-
-
--- Encode
-
-
-encodeFeeding : Feeding -> Encode.Value
-encodeFeeding ( time, lactation ) =
-    Encode.object
-        [ ( "lactation", Encode.string (toString lactation) )
-        , ( "time", Encode.float time )
-        ]
-
-
-encodeFeedings : List Feeding -> String
-encodeFeedings feedings =
-    Encode.list (List.map encodeFeeding feedings)
-        |> Encode.encode 0
-
-
-
--- Decode
-
-
-decodeFeeding : Json.Decode.Decoder Feeding
-decodeFeeding =
+storage : LocalStorage (List Feeding)
+storage =
     let
-        decodeTup =
-            Json.Decode.object2
-                (,)
-                ("time" := Json.Decode.float)
-                ("lactation" := Json.Decode.string)
+        encode string =
+            let
+                encodeFeeding ( time, lactation ) =
+                    Encode.object
+                        [ ( "lactation", Encode.string (toString lactation) )
+                        , ( "time", Encode.float time )
+                        ]
+            in
+                Encode.list (List.map encodeFeeding string)
+                    |> Encode.encode 0
 
-        decodeLactation ( time, lactationString ) =
-            case lactationString of
-                "LeftBreast" ->
-                    Ok ( time, LeftBreast )
+        decode =
+            let
+                tup =
+                    Json.Decode.object2
+                        (,)
+                        ("time" := Json.Decode.float)
+                        ("lactation" := Json.Decode.string)
 
-                "RightBreast" ->
-                    Ok ( time, RightBreast )
+                lactation ( time, lactationString ) =
+                    case lactationString of
+                        "LeftBreast" ->
+                            Ok ( time, LeftBreast )
 
-                "Bottle" ->
-                    Ok ( time, Bottle )
+                        "RightBreast" ->
+                            Ok ( time, RightBreast )
 
-                "Done" ->
-                    Ok ( time, Done )
+                        "Bottle" ->
+                            Ok ( time, Bottle )
 
-                _ ->
-                    Err "Lactation Decode Failed"
+                        "DoneFeeding" ->
+                            Ok ( time, DoneFeeding )
+
+                        "Poo" ->
+                            Ok ( time, Poo )
+
+                        "Pee" ->
+                            Ok ( time, Pee )
+
+                        "PooAndPee" ->
+                            Ok ( time, PooAndPee )
+
+                        _ ->
+                            Err "Event Decode Failed"
+
+                feeding =
+                    Json.Decode.customDecoder tup lactation
+            in
+                Json.Decode.list feeding
+                    |> Json.Decode.decodeString
     in
-        Json.Decode.customDecoder
-            decodeTup
-            decodeLactation
-
-
-decodeFeedings : String -> Result String (List Feeding)
-decodeFeedings =
-    Json.Decode.list decodeFeeding
-        |> Json.Decode.decodeString
-
-
-
--- Save Restore
+        LocalStorage "whichTitWhen" decode encode
 
 
 save : List Feeding -> Effects Action
 save feedings =
-    LocalStorage.set key (encodeFeedings feedings)
+    set storage feedings
         |> Task.map (always NoOp)
         |> Effects.task
 
 
 restore : Effects Action
 restore =
-    Task.toResult (LocalStorage.get key)
+    Task.toResult (get storage)
         |> Task.map
-            (\result ->
-                case result `Result.andThen` decodeFeedings of
-                    Ok feedings ->
-                        Restore feedings
-
-                    _ ->
-                        NoOp
-            )
+            (Result.map Restore >> Result.withDefault NoOp)
         |> Effects.task
