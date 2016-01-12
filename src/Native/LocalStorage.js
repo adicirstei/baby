@@ -11,26 +11,26 @@ window.foreign = {
 };
 var make = function make(localRuntime) {
     return function () {
-        var Taskø1 = Elm.Native.Task.make(localRuntime);
-        var Utilsø1 = Elm.Native.Utils.make(localRuntime);
-        var Signalø1 = Elm.Native.Signal.make(localRuntime);
-        var Tuple0ø1 = (Utilsø1 || 0)['Tuple0'];
+        var Task01 = Elm.Native.Task.make(localRuntime);
+        var Utils01 = Elm.Native.Utils.make(localRuntime);
+        var Signal01 = Elm.Native.Signal.make(localRuntime);
+        var Tuple001 = (Utils01 || 0)['Tuple0'];
         return (function () {
             foreign.sanitize(localRuntime, 'Native', 'LocalStorage');
             return localRuntime.Native.LocalStorage.values ? localRuntime.Native.LocalStorage.values : localRuntime.Native.LocalStorage.values = {
                 'get': function (key) {
-                    return Taskø1.asyncFunction(function (callback) {
+                    return Task01.asyncFunction(function (callback) {
                         return function () {
-                            var xø1 = localStorage.getItem(key);
-                            return callback(xø1 == null ? Taskø1.fail('Key not found') : Taskø1.succeed(xø1));
+                            var x01 = localStorage.getItem(key);
+                            return callback(x01 == null ? Task01.fail('Key not found') : Task01.succeed(x01));
                         }.call(this);
                     });
                 },
                 'set': F2(function (key, value) {
-                    return Taskø1.asyncFunction(function (callback) {
+                    return Task01.asyncFunction(function (callback) {
                         return (function () {
                             localStorage.setItem(key, value);
-                            return callback(Taskø1.succeed(Tuple0ø1));
+                            return callback(Task01.succeed(Tuple001));
                         })();
                     });
                 })

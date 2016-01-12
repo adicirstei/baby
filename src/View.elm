@@ -155,6 +155,7 @@ eventColor lac =
 
         NoSpa ->
             "#4FCE25"
+
         BabyMove ->
             "#b30085"
 
