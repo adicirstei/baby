@@ -54,6 +54,11 @@ storage =
                         "PooAndPee" ->
                             Ok ( time, PooAndPee )
 
+                        "BabyMove" ->
+                            Ok (time, BabyMove )
+
+                        "NoSpa" ->
+                            Ok (time, NoSpa )
                         _ ->
                             Err "Event Decode Failed"
 

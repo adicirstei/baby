@@ -84,6 +84,11 @@ renderFeeding address ( time, lactation ) =
 
                 PooAndPee ->
                     ( "Poo & Pee", "sort" )
+
+                BabyMove ->
+                    ( "Move", "child")
+                NoSpa ->
+                    ( "NoSpa", "bitbucket")
     in
         tr
             [ Attr.style [ ( "background", eventColor lactation ), ( "color", "white" ) ] ]
@@ -148,6 +153,11 @@ eventColor lac =
         PooAndPee ->
             "#7B7825"
 
+        NoSpa ->
+            "#4FCE25"
+        BabyMove ->
+            "#b30085"
+
 
 toolBar : Address Action -> Html
 toolBar address =
@@ -161,16 +171,18 @@ toolBar address =
                 [ text text' ]
     in
         div
-            [ Attr.class "ui seven item fixed menu"
+            [ Attr.class "ui two item fixed menu"
             , Attr.style [ ( "cursor", "pointer" ) ]
             ]
-            [ tool "Left Breast" LeftBreast
-            , tool "Right Breast" RightBreast
-            , tool "Bottle" Bottle
-            , tool "Feed" DoneFeeding
-            , tool "Poo" Poo
-            , tool "Pee" Pee
-            , tool "Poo & Pee" PooAndPee
+            [ tool "NoSpa" NoSpa
+            , tool "Baby Move" BabyMove
+            -- , tool "Left Breast" LeftBreast
+            -- , tool "Right Breast" RightBreast
+            -- , tool "Bottle" Bottle
+            -- , tool "Feed" DoneFeeding
+            -- , tool "Poo" Poo
+            -- , tool "Pee" Pee
+            -- , tool "Poo & Pee" PooAndPee
             ]
 
 

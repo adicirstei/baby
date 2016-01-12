@@ -11,6 +11,8 @@ type Event
     | Pee
     | PooAndPee
     | DoneFeeding
+    | NoSpa
+    | BabyMove
 
 
 type alias Feeding =
