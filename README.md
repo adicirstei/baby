@@ -1,4 +1,4 @@
-# Which Tit When?
-A small app to help us track our son's feedings
+# Pregnancy monitor
+A small app to help monitor baby movements and pill intake.
 
-[View Here](http://fresheyeball.github.io/whichTitWhen)
+I used as a starting point [Which Tit When](https://github.com/fresheyeball/whichTitWhen) app of  @fresheyeball
