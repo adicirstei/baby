@@ -59,6 +59,10 @@ storage =
 
                         "NoSpa" ->
                             Ok (time, NoSpa )
+
+                        "Iron" ->
+                            Ok (time, Iron )
+
                         _ ->
                             Err "Event Decode Failed"
 

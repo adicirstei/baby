@@ -89,6 +89,9 @@ renderFeeding address ( time, lactation ) =
                     ( "Move", "child")
                 NoSpa ->
                     ( "NoSpa", "bitbucket")
+                Iron ->
+                    ( "Iron", "steam")
+
     in
         tr
             [ Attr.style [ ( "background", eventColor lactation ), ( "color", "white" ) ] ]
@@ -158,7 +161,8 @@ eventColor lac =
 
         BabyMove ->
             "#b30085"
-
+        Iron ->
+            "#9e0303"
 
 toolBar : Address Action -> Html
 toolBar address =
@@ -172,10 +176,11 @@ toolBar address =
                 [ text text' ]
     in
         div
-            [ Attr.class "ui two item fixed menu"
+            [ Attr.class "ui three item fixed menu"
             , Attr.style [ ( "cursor", "pointer" ) ]
             ]
-            [ tool "NoSpa" NoSpa
+            [ tool "Iron" Iron
+            , tool "NoSpa" NoSpa
             , tool "Baby Move" BabyMove
             -- , tool "Left Breast" LeftBreast
             -- , tool "Right Breast" RightBreast

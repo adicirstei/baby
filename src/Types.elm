@@ -13,6 +13,7 @@ type Event
     | DoneFeeding
     | NoSpa
     | BabyMove
+    | Iron
 
 
 type alias Feeding =
