@@ -179,13 +179,13 @@ toolBar address =
             [ Attr.class "ui three item fixed menu"
             , Attr.style [ ( "cursor", "pointer" ) ]
             ]
-            [ tool "Iron" Iron
-            , tool "NoSpa" NoSpa
-            , tool "Baby Move" BabyMove
-            -- , tool "Left Breast" LeftBreast
-            -- , tool "Right Breast" RightBreast
+            [ --tool "Iron" Iron
+            -- , tool "NoSpa" NoSpa
+            -- , tool "Baby Move" BabyMove
+              tool "Left Breast" LeftBreast
+            , tool "Right Breast" RightBreast
             -- , tool "Bottle" Bottle
-            -- , tool "Feed" DoneFeeding
+            , tool "Feed" DoneFeeding
             -- , tool "Poo" Poo
             -- , tool "Pee" Pee
             -- , tool "Poo & Pee" PooAndPee
